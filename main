@@ -1,0 +1,90 @@
+  da importação aleatória randint
+importar timeit
+import matplotlib as mpl
+import matplotlib.pyplot como plt
+import sys
+importação itertools como ele
+de importação aleatória randrange
+sys.setrecursionlimit ( 1000000 )
+
+
+mpl.use ( ' Agg ' )
+
+def  geraLista ( tam ):
+    lista = []
+    enquanto tam >  0 :
+        lista.append (tam)
+        tam - =  1
+    return lista
+
+
+ partição def ( lst , start , end , pivot ):
+    lst [pivot], lst [final] = lst [fim], lst [pivot]
+    store_index = start
+    para i no  intervalo (início, fim):
+        if lst [i] < lst [fim]:
+            lst [i], lst [store_index] = lst [store_index], lst [i]
+            store_index + =  1
+    lst [store_index], lst [end] = lst [fim], lst [store_index]
+    retornar store_index
+
+
+def  quick_sort ( lst , iniciar , final ):
+    se começar > = final:
+        retornar lst
+    pivot = randrange (início, fim +  1 )
+    new_pivot = partição ( lst , start, end, pivot)
+    quick_sort (lst, start, new_pivot -  1 )
+    quick_sort (lst, new_pivot +  1 , final)
+
+
+def  QuickSort ( LST ):
+    quick_sort (lst, 0 , len (lst) -  1 )
+    retornar lst
+
+
+def  desenhaGrafico ( x , y , xl , yl , label ):
+	fig = plt.figure ( figsize = ( 10 , 8 ))
+	ax = fig.add_subplot ( 111 )
+	ax.plot (x, y, label  =  ' QuickSort ' )
+	ax.legend ( bbox_to_anchor = ( 1 , 1 ), bbox_transform = plt.gcf (). transFigura)
+	plt.ylabel (yl)
+	plt.xlabel (xl)
+	fig.savefig (label)
+    
+x = [ 200000 , 400000 , 600000 , 800000 , 1000000 ]
+x1 = [ 10000 , 20000 , 30000 , 40000 , 50000 ]
+
+yCaso = []
+yPiorCaso = []
+yMedioCaso = []
+yMelhorCaso = []
+
+lista = [ 1 , 2 , 3 , 4 , 5 , 6 ]
+listaPermutada =  list (it.permutations (lista, 6 ))
+tempos = []
+
+para i em x:
+    lista = geraLista (i)
+    yCaso.append (timeit.timeit ( ' QuickSort ( {} ) ' .format (lista), setup = " de __main__ import QuickSort " , número = 1 ))
+    
+para i em x1:    
+	listaa = geraLista (i)
+    listac =  classificado (lista)
+    listad =  classificado (lista, reverso = Verdadeiro )
+    yPiorCaso.append (timeit.timeit ( ' QuickSort ( {} ) ' .format (listad), setup = " de __main__ import QuickSort " , número = 1 ))
+    yMedioCaso.append (timeit.timeit ( ' QuickSort ( {} ) ' .format (listaa), setup = " de __main__ import QuickSort " , número = 1 ))
+    yMelhorCaso.append (timeit.timeit ( ' QuickSort ( {} ) ' .format (listac), setup = " de __main__ import QuickSort " , número = 1 ))
+
+desenhaGrafico (x, yCaso, ' Quantidade ' , ' Tempo ' , ' Caso ' )
+desenhaGrafico (x, yPiorCaso, ' Quantidade ' , ' Tempo ' , ' PiorCaso ' )    
+desenhaGrafico (x, yMedioCaso, ' Quantidade ' , ' Tempo ' , ' MedioCaso ' )    
+desenhaGrafico (x, yMelhorCaso, ' Quantidade ' , ' Tempo ' , ' MelhorCaso ' )    
+
+para i em listaPermutada:
+    tempos.append (timeit.timeit ( ' QuickSort ( {} ) ' .format (listaPermutada), setup = " from __main__ import QuickSort " , número = 1 ))
+    
+maxIdx = tempos.index ( max (tempos))
+
+print ( ' Tempo mais demorado: ' , max (tempos))
+print (listaPermutada [maxIdx])
